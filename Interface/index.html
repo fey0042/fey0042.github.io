@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Vote Your Future</title>
+  <meta charset="UTF-8" />
+  <title>Experiment</title>
+  <script crossorigin="anonymous" src="https://unpkg.com/react@16/umd/react.development.js"></script>
+  <script crossorigin="anonymous" src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  <script crossorigin="anonymous" src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./src/tovote.js"></script>
+	<link rel="stylesheet" href="stylesheet.css">  
+</head>
+
+<body>
+<h1>Vote Your Future</h1>
+<div class="heart"></div>
+<main>
+<div id="Advance"><img src="images/AdvanceNZ.jpeg" alt="AdvanceNZ"><p>Advance NZ</p></div>
+<div id="Advance"><img src="images/green-party-logo.jpeg" alt="AdvanceNZ"><p>NZ Green Party</p></div>
+<div id="Advance"><img src="images/labour-party.jpeg" alt="labour party"><p>Labour Party</p></div>
+<div id="Advance"><img src="images/maoti-party-logo.jpeg" alt="maori-party"><p>Maori Party</p></div>
+<div id="Advance"><img src="images/national-party.jpeg" alt="national-party"><p>National Party</p></div>
+<div id="Advance"><img src="images/new-conservative.jpeg" alt="new-conservative"><p>New Conservative</p></div>
+<div id="Advance"><img src="images/nz-first-logo.jpeg" alt="nz-first-logo"><p>NZ First</p></div>
+<div id="Advance"><img src="images/the-act-party-logo.jpeg" alt="the-act-party"><p>Act Party</p></div>
+</main>
+<br><br>
+<h3>Please fill the party and votes</h3><br>
+<div id="app">
+</div>
+<script type="text/babel">
+class App extends React.Component {
+  constructor (props) {
+    super(props)
+    // this is the <<ViewModel>>
+    this.state = {
+       newName: '',
+        newVote: '',
+        searchValue: '',
+        adding: true,
+        editing: false,
+        editItem: null
+     }
+     // this is the <<Model>>
+    this.theTovoteList = new ToVoteList()
+    this.handleEnter = this.handleEnter.bind(this)
+    this.handleChangedName = this.handleChangedName.bind(this)
+    this.handleChangedVote = this.handleChangedVote.bind(this)
+    this.handleSortPary = this.handleSortPary.bind(this)
+    this.handleSortParyByVotes =this.handleSortParyByVotes.bind(this)
+    this.removeParty = this.removeParty.bind(this)
+    this.handleSearch = this.handleSearch.bind(this)
+    this.handleSearchValue = this.handleSearchValue.bind(this)
+    this.editParty = this.editParty.bind(this)
+    this.handleCancel = this.handleCancel.bind(this)
+    this.handleSave = this.handleSave.bind(this)
+     
+  }
+
+    addParty () {
+      this.theTovoteList.addParty(this.state.newName, Number(this.state.newVote))
+    }
+  
+  
+  
+    handleChangedName(event) {
+      this.setState({
+        newName: event.target.value
+      })
+    }
+    
+    
+    handleChangedVote(event) {
+      this.setState({
+        newVote: event.target.value
+      })
+    }
+
+    handleSearchValue(event) {
+      this.setState({
+        searchValue: event.target.value
+      })
+    }
+    
+    handleEnter(event) {
+      if(this.state.newName === '' || this.state.newVote === '') {window.alert('You have to fill both Party name and Vote number')} 
+      else if(!['Advance NZ','NZ Green Party', 'Labour Party', 'Maori Party', 'National Party', 'New Conservative', 'NZ First', 'Act Party'].includes(this.state.newName))
+      {window.alert('You have to fill the Valid Party Name!')}
+      else if (![1,2,3,4,5,6,7,8,9].includes(Number(this.state.newVote))) {
+        window.alert('You have to enter the vote number betwen 0 and 10 (NOT include 0 and 10)!')
+      }
+      else{
+        this.addParty()
+        this.setState({
+          newName: '',
+          newVote: '',
+          searchValue: ''
+        })
+        event.preventDefault()
+      }
+      
+    }
+    
+    handleSortPary() {
+      this.theTovoteList.allMyParties.sort((a,b) => a.name > b.name ? 1 : -1)
+      this.setState({
+        newName: '',
+        newVote: ''
+      })
+    }
+  
+    handleSortParyByVotes() {
+       this.theTovoteList.allMyParties.sort((a,b) => a.vote > b.vote ? 1 : -1)
+       this.setState({
+        newName: '',
+        newVote: ''
+      })
+    }
+
+    removeParty(i) {
+      this.theTovoteList.allMyParties.splice(i, 1)
+      this.setState({
+        newName: '',
+        newVote: ''
+      })
+
+    }
+
+    editParty(editedParty) {
+      this.setState({
+        adding: false,
+        editing: true,
+        editItem: editedParty,
+        newName: editedParty.name,
+        newVote: editedParty.vote
+      }) 
+
+    }
+
+    handleCancel() {
+      this.setState({
+        newName: '',
+        newVote: '',
+        adding: true,
+        editing: false
+      })
+    }
+
+    handleSave() {
+      this.editedParty = this.state.editItem
+      this.editedParty.name = this.state.newName
+      this.editedParty.vote = this.state.newVote
+      this.handleCancel()
+    }
+
+    handleSearch () {
+      this.theTovoteList.allMyParties = this.theTovoteList.allMyParties.filter(item => Object.values(item).includes(this.state.searchValue))
+      this.setState({
+        searchValue: ''
+      })
+    }
+
+
+  render () {
+	    const partyNumber = this.theTovoteList.allMyParties.length
+      const voteNumber = this.theTovoteList.allMyParties.reduce((previous, current ) => previous + current.vote, 0)
+      const submitButton = <input id="add" type="button" value="add" onClick={this.handleEnter}></input>
+      const cancelButton = <button onClick={this.handleCancel}>Cancel</button>
+      const saveButton = <button onClick={this.handleSave}>Save</button>
+    return (
+        <section id="election">
+        <div id="inputs">
+          
+          <input id="name" value={this.state.newName} onChange={this.handleChangedName} placeholder="E.g. Labour Party"></input>
+          
+          <input id="vote" type='number' value={this.state.newVote} onChange={this.handleChangedVote} placeholder="E.g. 39"></input>
+          {this.state.adding && submitButton}
+          {this.state.editing && saveButton} {this.state.editing && cancelButton}
+          <br></br>
+				<button onClick={this.handleSortPary}>Sort by Name</button>
+				<button onClick={this.handleSortParyByVotes}>Sort by Votes</button>
+        </div>
+        <br/>
+        <div>
+          <input value={this.state.searchValue} onChange={this.handleSearchValue}></input>
+          <button onClick={this.handleSearch}>Search</button>
+        </div>
+
+        <output id="outputs">
+          <ul>
+          {this.theTovoteList.allMyParties.map((item, index) => <li key={index}>Party: {item.name}; Vote: {item.vote} {<button onClick={() => this.editParty(item)}>Edit</button>} {<button onClick={() => this.removeParty(index)}>Delete</button>}</li>)}
+          </ul>
+        </output>
+        <div>
+         {(partyNumber > 0) && <p>The number of party you voted is {partyNumber} and the total number of votes is {voteNumber}.</p>}
+        </div>
+    </section>
+    )
+  }
+}
+
+const element = <App />
+ReactDOM.render(
+  element,
+  document.getElementById('app')
+)
+</script>
+
+
+
+
+<body>
+</html>

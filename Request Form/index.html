@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+		<title>Kit Request Form</title>
+    <link rel="stylesheet" href="stylesheet.css">
+</head>
+<div class="container">
+
+<header class="header">
+<h1 id="title" class="text-center">Test Kit Request Form</h1>
+</header>
+
+<form id="survey-form">
+<div class="form-group">
+<label id="name-label" for="name">First Name</label>
+<input type="text" name="name" id="name" class="form-control" placeholder="Enter your first name" required>
+</div>
+<div class="form-group">
+<label id="name-label" for="name">Last Name</label>
+<input type="text" name="name" id="name" class="form-control" placeholder="Enter your last name" required>
+</div>
+<div class="form-group">
+<label id="email-label" for="email">Email</label>
+<input type="email" name="email" id="email" class="form-control" placeholder="Enter your email" required>
+</div>
+<div class="form-group">
+<label id="mobile-label" for="mobile">Phone</label>
+<input type="mobile" name="mobile" id="mobile" class="form-control" placeholder="Enter your contact phone number" required>
+</div>
+<div class="form-group">
+<label id="Deliver-address" for="address">Delivery Address</label>
+<input type="address" name="address" id="address" class="form-control" placeholder="Enter your delivery address" required>
+</div>
+<div class="form-group">
+<label id="age-label" for="number">Age<span class="clue">(optional)</span></label>
+<input type="number" name="age" id="number" min="10" max="99" class="form-control" placeholder="Age" required>
+</div>
+<div class="form-group">
+<p>Which option best describes your ethnicity?</p>
+<select id="dropdown" name="ethnicity" class="form-control" required>
+<option disabled selected value>Select current ethnicity</option>
+<option value="European">European</option>
+<option value="Maori">M&amacr;ori</option>
+<option value="Pacific Peoples">Pacific Peoples</option>
+<option value="Asian">Asian</option>
+<option value="Middle Eastern">Middle Eastern</option>
+<option value="Latin American">Latin American</option>
+<option value="African">African</option>
+<option value="other">Other</option>
+</select>
+</div>
+<div class="form-group">
+<p>Have you had any reation for couloring hair chemeical before?</p>
+<label for="yes"> 
+  <input id="yes" type="radio" name="user-recommend" value="yes" class="input-radio">Yes
+</label>
+<label for="no"> 
+  <input id="no" type="radio" name="user-recommend" value="yes" class="input-radio" checked>No
+</label>
+<label for="maybe"> 
+  <input id="maybe" type="radio" name="user-recommend" value="maybe" class="input-radio">Maybe
+</label>
+<label for="notsure"> 
+  <input id="notsure" type="radio" name="user-recommend" value="notsure" class="input-radio">Not sure
+</label>
+</div>
+
+<div class="form-group">
+<p>Have you dyed your hair in the last 2 months?</p>
+<label for="yes"> 
+  <input id="yes" type="radio" name="dye-hair" value="yes" class="input-radio" checked>Yes
+</label>
+<label for="no"> 
+  <input id="no" type="radio" name="dye-hair" value="yes" class="input-radio">No
+</label>
+</div>
+
+<div class="form-group">
+<p>Which salon you had appointment with?</p>
+<select id="favorite" name="feature" class="form-control" required>
+<option disabled selected value>Select a salon</option>
+<option value="challenges">Popcoulor</option>
+<option value="projects">Ninja</option>
+<option value="community">Community</option>
+</select>
+</div>
+
+
+
+<div class="form-group">
+<button type="submit" id="submit" class="submit-button">Submit</button>
+</div>
+
+
+
+
+
+</form>
+
+
+</div>
+</html>
